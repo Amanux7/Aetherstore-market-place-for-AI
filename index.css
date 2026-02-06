@@ -1,0 +1,347 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+  /* Terminal Color Palette */
+  --terminal-bg: #000000;
+  --terminal-green: #00ff00;
+  --terminal-green-dark: #008800;
+  --terminal-green-dim: #004400;
+  --terminal-cyan: #00ffff;
+  --terminal-magenta: #ff00ff;
+  --terminal-yellow: #ffff00;
+  --terminal-red: #ff0000;
+  --terminal-white: #ffffff;
+  --terminal-gray: #808080;
+
+  /* Semantic Colors */
+  --bg-primary: var(--terminal-bg);
+  --text-primary: var(--terminal-green);
+  --text-secondary: var(--terminal-green-dark);
+  --text-muted: var(--terminal-green-dim);
+  --border-color: var(--terminal-green);
+  --accent-color: var(--terminal-cyan);
+  --highlight-color: var(--terminal-yellow);
+}
+
+/* Reset & Base */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: auto;
+  -moz-osx-font-smoothing: auto;
+}
+
+body {
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.6;
+  overflow-x: hidden;
+  position: relative;
+  font-weight: 400;
+}
+
+/* CRT Scan Lines Effect */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(0deg,
+      rgba(0, 255, 0, 0.03) 0px,
+      rgba(0, 255, 0, 0.03) 1px,
+      transparent 1px,
+      transparent 2px);
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* Terminal Glow Effect */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle at center, transparent 0%, rgba(0, 255, 0, 0.05) 100%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--terminal-bg);
+  border-left: 1px solid var(--terminal-green-dim);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--terminal-green-dark);
+  border: 1px solid var(--terminal-green);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--terminal-green);
+}
+
+/* Layout */
+.container {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 24px;
+  position: relative;
+  z-index: 1;
+}
+
+/* Terminal Box */
+.terminal-box {
+  border: 2px solid var(--border-color);
+  background: rgba(0, 255, 0, 0.02);
+  padding: 20px;
+  font-family: 'JetBrains Mono', monospace;
+  position: relative;
+}
+
+.terminal-box::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  box-shadow: inset 0 0 20px rgba(0, 255, 0, 0.1);
+  pointer-events: none;
+}
+
+/* Terminal Prompt */
+.prompt {
+  color: var(--terminal-cyan);
+  font-weight: 600;
+}
+
+.prompt::before {
+  content: '$ ';
+  color: var(--terminal-green);
+}
+
+/* Blinking Cursor */
+.cursor {
+  display: inline-block;
+  width: 10px;
+  height: 20px;
+  background: var(--terminal-green);
+  animation: blink 1s step-end infinite;
+  margin-left: 2px;
+}
+
+@keyframes blink {
+
+  0%,
+  50% {
+    opacity: 1;
+  }
+
+  51%,
+  100% {
+    opacity: 0;
+  }
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 1;
+  font-family: 'JetBrains Mono', monospace;
+  border: 2px solid var(--border-color);
+  background: transparent;
+  color: var(--text-primary);
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.btn::before {
+  content: '[';
+  color: var(--terminal-cyan);
+}
+
+.btn::after {
+  content: ']';
+  color: var(--terminal-cyan);
+}
+
+.btn:hover {
+  background: var(--terminal-green);
+  color: var(--terminal-bg);
+  box-shadow: 0 0 10px var(--terminal-green);
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
+
+.btn-primary {
+  background: var(--terminal-green);
+  color: var(--terminal-bg);
+}
+
+.btn-primary:hover {
+  box-shadow: 0 0 20px var(--terminal-green);
+}
+
+/* Card */
+.card {
+  border: 2px solid var(--border-color);
+  background: rgba(0, 255, 0, 0.02);
+  transition: all 0.3s;
+  position: relative;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  box-shadow: inset 0 0 10px rgba(0, 255, 0, 0.05);
+  pointer-events: none;
+}
+
+.card:hover {
+  box-shadow: 0 0 15px rgba(0, 255, 0, 0.3);
+  background: rgba(0, 255, 0, 0.05);
+}
+
+/* ASCII Borders */
+.ascii-border-top {
+  border-top: 2px solid var(--border-color);
+}
+
+.ascii-border-bottom {
+  border-bottom: 2px solid var(--border-color);
+}
+
+/* Text Styles */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+  color: var(--terminal-green);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+a {
+  color: var(--terminal-cyan);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+a:hover {
+  color: var(--terminal-yellow);
+  text-shadow: 0 0 5px var(--terminal-yellow);
+}
+
+/* Focus States */
+button:focus-visible,
+a:focus-visible {
+  outline: 2px solid var(--terminal-green);
+  outline-offset: 2px;
+}
+
+/* Selection */
+::selection {
+  background: var(--terminal-green);
+  color: var(--terminal-bg);
+}
+
+/* Utility Classes */
+.text-cyan {
+  color: var(--terminal-cyan);
+}
+
+.text-magenta {
+  color: var(--terminal-magenta);
+}
+
+.text-yellow {
+  color: var(--terminal-yellow);
+}
+
+.text-muted {
+  color: var(--text-muted);
+}
+
+.glow {
+  text-shadow: 0 0 10px currentColor;
+}
+
+.relative {
+  position: relative;
+}
+
+.z-10 {
+  z-index: 10;
+}
+
+.z-50 {
+  z-index: 50;
+}
+
+/* Animations */
+@keyframes typing {
+  from {
+    width: 0;
+  }
+
+  to {
+    width: 100%;
+  }
+}
+
+@keyframes scanline {
+  0% {
+    transform: translateY(-100%);
+  }
+
+  100% {
+    transform: translateY(100%);
+  }
+}
+
+.typing-effect {
+  overflow: hidden;
+  white-space: nowrap;
+  animation: typing 2s steps(40, end);
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .container {
+    padding: 0 16px;
+  }
+
+  body {
+    font-size: 14px;
+  }
+
+  .btn {
+    font-size: 12px;
+    padding: 8px 16px;
+  }
+}
